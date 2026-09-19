@@ -11,6 +11,15 @@ bins geometry per tile and shades each pixel roughly once).
 
 ![TriangleBin-DX showing the Controls window and the Select GPU window](docs/screenshot.png)
 
+## Download
+
+Grab `TriangleBin-DX-v1.0.0.exe` from the [Releases](https://github.com/ddYIbb/TriangleBin-DX/releases)
+page. It is a single file for every architecture: it detects the host CPU, runs the
+matching x64 / x86 / ARM64 build, and cleans up after itself when it exits. No installer,
+nothing written to the registry.
+
+To build it yourself instead, see [Building](#building).
+
 ## Relationship to the original
 
 This is a port, not a fork in the "small patch" sense. The idea, the controls and the

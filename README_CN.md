@@ -10,6 +10,14 @@
 
 ![TriangleBin-DX 的 Controls 窗口与 Select GPU 窗口](docs/screenshot.png)
 
+## 下载
+
+到 [Releases](https://github.com/ddYIbb/TriangleBin-DX/releases) 页面下载
+`TriangleBin-DX-v1.0.0.exe`。它一个文件支持全部架构：启动时自动识别 CPU，运行对应的
+x64 / x86 / ARM64 版本，退出后自动清理。不需要安装，也不写注册表。
+
+想自己编译的话见下面的[编译](#编译)一节。
+
 ## 与原项目的关系
 
 这是一个移植版本，不是打补丁。核心思路、控制项和测量方式来自 Swung 0x48 的
