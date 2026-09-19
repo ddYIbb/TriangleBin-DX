@@ -8,6 +8,8 @@
 显卡是 **IMR**（立即模式渲染，每个三角形的每个覆盖像素都要着色）还是 **TBR**
 （分块渲染，几何按 tile 分桶，每个像素基本只着色一次）。
 
+![TriangleBin-DX 的 Controls 窗口与 Select GPU 窗口](docs/screenshot.png)
+
 ## 与原项目的关系
 
 这是一个移植版本，不是打补丁。核心思路、控制项和测量方式来自 Swung 0x48 的
@@ -71,8 +73,8 @@ CPU 架构、显卡名称、驱动版本、支持的最高 DirectX 特性级别�
 环境要求：
 
 - Windows 10 或 11
-- Visual Studio 2022，需勾选 **使用 C++ 的桌面开发** 工作负载
-- CMake 3.20 或更高版本
+- Visual Studio 2022 或更高版本，需勾选 **使用 C++ 的桌面开发** 工作负载
+- CMake 3.20 或更高版本（Visual Studio 自带的即可）
 
 SDL2、Dear ImGui、GLM 已放在 `deps/` 下，无需包管理器。
 
@@ -80,19 +82,22 @@ SDL2、Dear ImGui、GLM 已放在 `deps/` 下，无需包管理器。
 git clone https://github.com/ddYIbb/TriangleBin-DX.git
 cd TriangleBin-DX
 
-cmake -S . -B build-x64 -G "Visual Studio 17 2022" -A x64
+cmake -S . -B build-x64 -A x64
 cmake --build build-x64 --config Release
 ```
+
+如果装了多个版本的 Visual Studio 而 CMake 选错了，可以显式指定生成器：
+`-G "Visual Studio 17 2022"` 或 `-G "Visual Studio 18 2026"`。
 
 产物为 `build-x64/demo-dx.exe`。运行前需要把 `deps/SDL2/lib/x64/SDL2.dll` 复制到它旁边。
 
 其余架构只是换一下生成器平台和输出目录：
 
 ```bash
-cmake -S . -B build-x86 -G "Visual Studio 17 2022" -A Win32
+cmake -S . -B build-x86 -A Win32
 cmake --build build-x86 --config Release
 
-cmake -S . -B build-arm64 -G "Visual Studio 17 2022" -A ARM64
+cmake -S . -B build-arm64 -A ARM64
 cmake --build build-arm64 --config Release
 ```
 
@@ -100,15 +105,20 @@ ARM64 静态链接 SDL2，因此不需要 `SDL2.dll`。
 
 ### 启动器
 
-`tools/launcher` 会把上面三个可执行文件和两份 `SDL2.dll` 嵌入资源（见 `launcher.rc`）。
-请务必在三个架构都编译完成之后再配置它，因为资源编译器在构建时就要读取这些文件：
+`tools/launcher` 会把上面三个可执行文件和两份 `SDL2.dll` 作为资源嵌入。请务必在三个
+架构都编译完成之后再配置它，因为资源编译器在构建时就要读取这些文件：
 
 ```bash
-cmake -S tools/launcher -B tools/launcher/build -G "Visual Studio 17 2022" -A x64
+cmake -S tools/launcher -B tools/launcher/build -A Win32
 cmake --build tools/launcher/build --config Release
 ```
 
-产物是 `tools/launcher/build/demo-dx.exe`，单文件、可直接分发。
+产物是 `tools/launcher/build/demo-dx.exe`，单文件、可直接分发。它刻意按 Win32（x86）
+编译，这样同一个文件能在所有 Windows 机器上运行：x86 和 x64 原生执行，ARM64 走系统内置
+的模拟层。
+
+`launcher.rc.in` 是模板，配置阶段由 `CMakeLists.txt` 把各载荷的绝对路径填进去并生成
+`launcher.rc` 到构建目录，仓库里不保存任何跟机器相关的路径。
 
 ## 第三方组件
 

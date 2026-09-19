@@ -1,0 +1,23 @@
+// Embedded per-architecture payloads (RCDATA).
+//
+// This is a template. CMake substitutes @TB_*_RC@ with the absolute path of
+// each payload during the configure step and writes launcher.rc into the build
+// directory, so no machine-specific path is stored in the repository.
+// See CMakeLists.txt.
+
+#define IDR_X64_EXE   101
+#define IDR_X64_SDL2  102
+#define IDR_X86_EXE   103
+#define IDR_X86_SDL2  104
+#define IDR_ARM64_EXE 105
+
+// x64
+IDR_X64_EXE   RCDATA "@TB_X64_EXE_RC@"
+IDR_X64_SDL2  RCDATA "@TB_X64_SDL2_RC@"
+
+// x86
+IDR_X86_EXE   RCDATA "@TB_X86_EXE_RC@"
+IDR_X86_SDL2  RCDATA "@TB_X86_SDL2_RC@"
+
+// arm64 (SDL2 is linked statically, so there is no SDL2.dll)
+IDR_ARM64_EXE RCDATA "@TB_ARM64_EXE_RC@"

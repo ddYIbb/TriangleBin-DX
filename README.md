@@ -9,6 +9,8 @@ shades. That count is what tells you whether your GPU is an **IMR** (immediate-m
 renderer, shades every covered pixel of every triangle) or a **TBR** (tile-based renderer,
 bins geometry per tile and shades each pixel roughly once).
 
+![TriangleBin-DX showing the Controls window and the Select GPU window](docs/screenshot.png)
+
 ## Relationship to the original
 
 This is a port, not a fork in the "small patch" sense. The idea, the controls and the
@@ -80,8 +82,8 @@ shading each pixel once per tile — that is TBR behaviour.
 Requirements:
 
 - Windows 10 or 11
-- Visual Studio 2022 with the **Desktop development with C++** workload
-- CMake 3.20 or newer
+- Visual Studio 2022 or newer with the **Desktop development with C++** workload
+- CMake 3.20 or newer (the copy bundled with Visual Studio works)
 
 SDL2, Dear ImGui and GLM are vendored under `deps/`, so no package manager is needed.
 
@@ -89,9 +91,13 @@ SDL2, Dear ImGui and GLM are vendored under `deps/`, so no package manager is ne
 git clone https://github.com/ddYIbb/TriangleBin-DX.git
 cd TriangleBin-DX
 
-cmake -S . -B build-x64 -G "Visual Studio 17 2022" -A x64
+cmake -S . -B build-x64 -A x64
 cmake --build build-x64 --config Release
 ```
+
+If several Visual Studio versions are installed and CMake picks the wrong one,
+name the generator explicitly with `-G "Visual Studio 17 2022"` (or
+`-G "Visual Studio 18 2026"`).
 
 The executable lands in `build-x64/demo-dx.exe`. Copy `deps/SDL2/lib/x64/SDL2.dll` next
 to it before running.
@@ -100,10 +106,10 @@ The other architectures use the same commands with a different generator platfor
 output directory:
 
 ```bash
-cmake -S . -B build-x86 -G "Visual Studio 17 2022" -A Win32
+cmake -S . -B build-x86 -A Win32
 cmake --build build-x86 --config Release
 
-cmake -S . -B build-arm64 -G "Visual Studio 17 2022" -A ARM64
+cmake -S . -B build-arm64 -A ARM64
 cmake --build build-arm64 --config Release
 ```
 
@@ -112,15 +118,21 @@ The ARM64 build links SDL2 statically and therefore needs no `SDL2.dll`.
 ### Launcher
 
 `tools/launcher` embeds the three executables and the two needed `SDL2.dll` files
-(`launcher.rc`). Configure it only after all three builds above have produced their
+as resources. Configure it only after all three builds above have produced their
 `demo-dx.exe`, since the resource compiler reads those files at build time:
 
 ```bash
-cmake -S tools/launcher -B tools/launcher/build -G "Visual Studio 17 2022" -A x64
+cmake -S tools/launcher -B tools/launcher/build -A Win32
 cmake --build tools/launcher/build --config Release
 ```
 
 The result is `tools/launcher/build/demo-dx.exe`, a single portable executable.
+It is deliberately built as Win32 so that the one file runs on every Windows
+machine: x86 and x64 natively, ARM64 through the built-in emulation.
+
+`launcher.rc.in` is a template — `CMakeLists.txt` fills in the absolute path of
+each payload at configure time and writes `launcher.rc` into the build
+directory. Nothing machine-specific is stored in the repository.
 
 ## Third-party components
 
