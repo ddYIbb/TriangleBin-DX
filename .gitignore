@@ -25,6 +25,7 @@ cmake_install.cmake
 
 # Runtime leftovers written next to the executable
 imgui.ini
+trianglebin.log
 trianglebin-error-report.txt
 trianglebin-launcher-error.txt
 
