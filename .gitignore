@@ -1,0 +1,34 @@
+# Build trees
+/build/
+/build-*/
+/tools/launcher/build/
+**/CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.vcxproj
+*.vcxproj.filters
+*.slnx
+*.sln
+*.tlog
+*.recipe
+*.obj
+*.res
+*.ilk
+*.pdb
+
+# Local tooling and downloaded SDK archives
+/tools/vcpkg/
+/downloads/
+
+# Stray build output in the project root
+/demo-dx.exe
+
+# Runtime leftovers written next to the executable
+imgui.ini
+trianglebin-error-report.txt
+trianglebin-launcher-error.txt
+
+# IDE
+.vs/
+.vscode/
+*.user

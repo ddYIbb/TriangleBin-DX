@@ -1,0 +1,15 @@
+// Embedded per-architecture payloads (RCDATA).
+#define IDR_X64_EXE   101
+#define IDR_X64_SDL2  102
+#define IDR_X86_EXE   103
+#define IDR_X86_SDL2  104
+#define IDR_ARM64_EXE 105
+
+// x64
+IDR_X64_EXE   RCDATA "D:\\Users\\Administrator\\Music\\TriangleBin-win64\\TriangleBin-DX-dev\\build-x64\\demo-dx.exe"
+IDR_X64_SDL2  RCDATA "D:\\Users\\Administrator\\Music\\TriangleBin-win64\\TriangleBin-DX-dev\\deps\\SDL2\\lib\\x64\\SDL2.dll"
+// x86
+IDR_X86_EXE   RCDATA "D:\\Users\\Administrator\\Music\\TriangleBin-win64\\TriangleBin-DX-dev\\build-x86\\demo-dx.exe"
+IDR_X86_SDL2  RCDATA "D:\\Users\\Administrator\\Music\\TriangleBin-win64\\TriangleBin-DX-dev\\deps\\SDL2\\lib\\x86\\SDL2.dll"
+// arm64 (SDL2 is statically linked, no SDL2.dll)
+IDR_ARM64_EXE RCDATA "D:\\Users\\Administrator\\Music\\TriangleBin-win64\\TriangleBin-DX-dev\\build-arm64\\demo-dx.exe"
